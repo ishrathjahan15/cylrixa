@@ -1,0 +1,6 @@
+{
+  "name": "Clyrixa — Real-Time Phishing & Malicious Link Protection",
+  "description": "Context-aware phishing detection, explainable risk scoring, and real-time browser protection before you click.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

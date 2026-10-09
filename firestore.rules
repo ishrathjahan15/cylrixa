@@ -1,0 +1,85 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Primitives & Helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'ishrath.knl@gmail.com' ||
+        request.auth.token.email == '259xa33276@gmail.com' ||
+        request.auth.token.email == 'webx@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidUserProfile(data) {
+      return data.keys().hasAll(['userId', 'email', 'displayName']) &&
+             data.keys().hasOnly(['userId', 'email', 'displayName', 'role', 'createdAt']) &&
+             data.userId is string && data.userId.size() <= 128 && (data.userId == request.auth.uid || isAdmin()) &&
+             data.email is string && data.email.size() <= 256 &&
+             data.displayName is string && data.displayName.size() <= 128 &&
+             (!('role' in data) || (data.role is string && data.role in ['user', 'admin'])) &&
+             (!('createdAt' in data) || (data.createdAt is string && data.createdAt.size() <= 64));
+    }
+
+    function isValidAppointment(data) {
+      return data.keys().hasAll(['userId', 'userEmail', 'userName', 'serviceType', 'preferredDate', 'preferredTime', 'status']) &&
+             data.keys().hasOnly(['userId', 'userEmail', 'userName', 'userPhone', 'serviceType', 'preferredDate', 'preferredTime', 'notes', 'status', 'createdAt', 'createdByAdmin']) &&
+             data.userId is string && data.userId.size() <= 128 && (data.userId == request.auth.uid || isAdmin()) &&
+             data.userEmail is string && data.userEmail.size() <= 256 &&
+             data.userName is string && data.userName.size() <= 128 &&
+             (!('userPhone' in data) || (data.userPhone is string && data.userPhone.size() <= 32)) &&
+             data.serviceType is string && data.serviceType in ['incident_triage', 'link_audit', 'security_consultation', 'enterprise_demo'] &&
+             data.preferredDate is string && data.preferredDate.size() <= 32 &&
+             data.preferredTime is string && data.preferredTime.size() <= 32 &&
+             (!('notes' in data) || (data.notes is string && data.notes.size() <= 1000)) &&
+             data.status is string && data.status in ['pending', 'confirmed', 'cancelled', 'completed'] &&
+             (!('createdAt' in data) || (data.createdAt is string && data.createdAt.size() <= 64)) &&
+             (!('createdByAdmin' in data) || (data.createdByAdmin is bool));
+    }
+
+    // User profile documents
+    match /users/{userId} {
+      allow get: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow list: if isSignedIn() && isAdmin();
+      allow create: if isSignedIn() && (request.auth.uid == userId || isAdmin()) && isValidId(userId) && isValidUserProfile(incoming());
+      allow update: if isSignedIn() && (request.auth.uid == userId || isAdmin()) && isValidId(userId) && isValidUserProfile(incoming()) && incoming().userId == existing().userId;
+      allow delete: if isSignedIn() && isAdmin();
+    }
+
+    // Appointment bookings
+    match /appointments/{appointmentId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidId(appointmentId) && isValidAppointment(incoming()) && (incoming().userId == request.auth.uid || isAdmin());
+      allow update: if isSignedIn() && isValidId(appointmentId) && isValidAppointment(incoming()) && (existing().userId == request.auth.uid || isAdmin());
+      allow delete: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin());
+    }
+
+    // Test connection doc for client health-checks
+    match /test/connection {
+      allow get: if true;
+    }
+  }
+}

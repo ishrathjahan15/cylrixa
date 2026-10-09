@@ -1,0 +1,111 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile containing basic contact and registration details",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID matching request.auth.uid",
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address",
+          "maxLength": 256
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Full name or alias of the user",
+          "maxLength": 128
+        },
+        "role": {
+          "type": "string",
+          "description": "Role identifier ('user' or 'admin')",
+          "enum": ["user", "admin"]
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of user registration",
+          "maxLength": 64
+        }
+      },
+      "required": ["userId", "email", "displayName"]
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Security audit and cyber consultation appointment booked by a user or admin",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the booking owner or client",
+          "maxLength": 128
+        },
+        "userEmail": {
+          "type": "string",
+          "description": "Contact email for the appointment",
+          "maxLength": 256
+        },
+        "userName": {
+          "type": "string",
+          "description": "Contact name for the consultation",
+          "maxLength": 128
+        },
+        "userPhone": {
+          "type": "string",
+          "description": "Optional contact telephone number",
+          "maxLength": 32
+        },
+        "serviceType": {
+          "type": "string",
+          "description": "Type of cyber consultation",
+          "enum": ["incident_triage", "link_audit", "security_consultation", "enterprise_demo"],
+          "maxLength": 64
+        },
+        "preferredDate": {
+          "type": "string",
+          "description": "Target date for the consultation YYYY-MM-DD",
+          "maxLength": 32
+        },
+        "preferredTime": {
+          "type": "string",
+          "description": "Time slot selected (e.g. 10:00 AM - 11:00 AM)",
+          "maxLength": 32
+        },
+        "notes": {
+          "type": "string",
+          "description": "Incident details, suspicious links, or notes for the security analyst",
+          "maxLength": 1000
+        },
+        "status": {
+          "type": "string",
+          "description": "Appointment progress status",
+          "enum": ["pending", "confirmed", "cancelled", "completed"],
+          "maxLength": 32
+        },
+        "createdByAdmin": {
+          "type": "boolean",
+          "description": "Whether this booking was created directly from the admin portal"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp",
+          "maxLength": 64
+        }
+      },
+      "required": ["userId", "userEmail", "userName", "serviceType", "preferredDate", "preferredTime", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Private user account profile"
+    },
+    "/appointments/{appointmentId}": {
+      "schema": "Appointment",
+      "description": "Cyber security consultation appointments"
+    }
+  }
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clyrixa Shield</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-area">
+        <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="#28D7E5" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="M9 12l2 2 4-4" stroke="#35CFA6"/>
+        </svg>
+        <div>
+          <h1 class="brand-title">CLYRIXA</h1>
+          <p class="tagline">Real-Time Link Shield</p>
+        </div>
+      </div>
+      <div class="status-indicator">
+        <span class="status-dot active" id="status-dot"></span>
+        <span class="status-text" id="status-text">Active</span>
+      </div>
+    </header>
+
+    <!-- Protection Toggle -->
+    <div class="toggle-card">
+      <div class="toggle-info">
+        <span class="toggle-label">Pre-Click Interception</span>
+        <span class="toggle-desc">Inspect links before navigation</span>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="protection-toggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- Quick Scan Bar -->
+    <div class="quick-scan">
+      <label for="url-input">Quick URL Check</label>
+      <div class="input-row">
+        <input type="text" id="url-input" placeholder="Paste link to test..." />
+        <button id="scan-btn">Scan</button>
+      </div>
+      <div id="quick-result" class="quick-result hidden"></div>
+    </div>
+
+    <!-- Session Stats -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <span class="stat-num" id="stat-scanned">0</span>
+        <span class="stat-label">Links Inspected</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num text-danger" id="stat-blocked">0</span>
+        <span class="stat-label">Threats Paused</span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="footer-actions">
+      <button class="btn-primary" id="open-dashboard-btn">Open Web Dashboard</button>
+      <button class="btn-secondary" id="open-options-btn">Settings</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clyrixa — Security Alert</title>
+  <link rel="stylesheet" href="warning.css">
+</head>
+<body>
+  <div class="warning-wrapper">
+    <div class="card">
+      <div class="header">
+        <div class="shield-badge" id="shield-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M12 8v4M12 16h.01"/>
+          </svg>
+        </div>
+        <div>
+          <span class="alert-type" id="alert-type">CLYRIXA REAL-TIME SHIELD</span>
+          <h1 class="headline" id="headline">Navigation Intercepted</h1>
+        </div>
+      </div>
+
+      <div class="target-box">
+        <span class="target-label">Attempted Destination:</span>
+        <code class="target-url" id="target-url">Loading target...</code>
+      </div>
+
+      <div class="risk-meter-section">
+        <div class="risk-meta">
+          <span class="risk-label">Assessed Risk Score</span>
+          <span class="risk-score" id="risk-score">--/100</span>
+        </div>
+        <div class="meter-bar">
+          <div class="meter-fill" id="meter-fill"></div>
+        </div>
+        <div class="status-pill" id="status-pill">EVALUATING</div>
+      </div>
+
+      <div class="brand-alert hidden" id="brand-alert">
+        <strong id="brand-title">Deceptive Brand Impersonation</strong>
+        <p id="brand-desc">This site mimics a well-known brand but belongs to an unrelated registrant.</p>
+      </div>
+
+      <div class="findings-section">
+        <h3>Specific Security Findings</h3>
+        <ul class="findings-list" id="findings-list">
+          <li>Evaluating threat indicators...</li>
+        </ul>
+      </div>
+
+      <div class="consequence-box" id="consequence-box">
+        <strong>What could happen if you proceed:</strong>
+        <p id="consequence-text">Entering passwords or two-factor codes on this page may lead to immediate account takeover or financial theft.</p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="actions">
+        <button class="btn-safety" id="btn-back">Return to Safety (Recommended)</button>
+        <button class="btn-inspect" id="btn-inspect">Inspect Full Evidence</button>
+      </div>
+
+      <!-- Deliberate Override Accordion -->
+      <div class="override-section">
+        <button class="override-toggle" id="override-toggle">I understand the risks, let me proceed anyway</button>
+        <div class="override-panel hidden" id="override-panel">
+          <p>Overriding Clyrixa bypasses protection for this navigation. You assume full risk of credential harvesting or malware delivery.</p>
+          <button class="btn-override" id="btn-override-confirm">Proceed to Unsafe Destination</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="warning.js"></script>
+</body>
+</html>

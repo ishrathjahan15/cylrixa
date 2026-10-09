@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clyrixa Settings</title>
+  <style>
+    body {
+      background: #071521;
+      color: #F2F7FC;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 40px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    h1 { font-size: 22px; color: #28D7E5; margin-bottom: 8px; }
+    p { color: #A8BBCB; font-size: 13px; margin-bottom: 24px; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    input[type="text"] {
+      width: 100%;
+      background: #0B1F30;
+      border: 1px solid #244155;
+      padding: 10px;
+      border-radius: 6px;
+      color: #F2F7FC;
+      font-size: 13px;
+      box-sizing: border-box;
+    }
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .btn-save {
+      background: #28D7E5;
+      color: #071521;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .toast {
+      margin-top: 14px;
+      color: #35CFA6;
+      font-size: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Clyrixa Extension Settings</h1>
+  <p>Configure link inspection policy and backend connectivity.</p>
+
+  <div class="form-group">
+    <label for="backend-url">Clyrixa Server Endpoint</label>
+    <input type="text" id="backend-url" placeholder="http://localhost:3000" />
+    <span style="font-size:11px;color:#A8BBCB;margin-top:4px;display:block;">Default is your local or deployed Clyrixa web application origin.</span>
+  </div>
+
+  <div class="checkbox-row">
+    <input type="checkbox" id="auto-open" checked />
+    <label for="auto-open" style="margin:0;font-weight:normal;">Automatically proceed to low-risk destinations</label>
+  </div>
+
+  <div class="checkbox-row">
+    <input type="checkbox" id="enable-interception" checked />
+    <label for="enable-interception" style="margin:0;font-weight:normal;">Enable click interception across external websites</label>
+  </div>
+
+  <button class="btn-save" id="btn-save">Save Settings</button>
+  <div class="toast" id="toast">Settings saved successfully!</div>
+
+  <script src="options.js"></script>
+</body>
+</html>

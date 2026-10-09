@@ -44,6 +44,13 @@ npm run dev
 ```
 The server will boot on `http://localhost:3000` with the Vite dev server mounted.
 
+
+## 5. Live Website
+
+visit our website :
+https://clyrixa-real-time-phishing-malicious-link-pr-w7tl-43845123665.asia-southeast1.run.app
+
+
 ### Testing the Browser Extension:
 1. Open Google Chrome or Microsoft Edge.
 2. Go to `chrome://extensions` or `edge://extensions`.
